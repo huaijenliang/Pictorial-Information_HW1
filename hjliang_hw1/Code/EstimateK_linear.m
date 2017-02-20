@@ -17,7 +17,27 @@ function [K, Hs] = EstimateK_linear(x, X)
 %
 
 %% Your code goes here
+[corNum, ~, imgNum] = size(x);
+Hs = zeros(3, 3, imgNum);
+worldX = X(:, 1);
+worldY = X(:, 2);
+V = zeros(2 * imgNum, 6);
+for i = 1:imgNum
+    imgX = x(:, 1);
+    imgY = x(:, 2);
+    h = est_homography(imgX, imgY, worldX, worldY);
+    v11 = [h(1, 1) ^ 2, h(1, 1) * h(1, 2) * 2, h(1, 2) ^ 2, h(1, 3) * h(1, 1) * 2, h(1, 3) * h(1, 2) * 2, h(1, 3) ^ 2];
+    v12 = [h(1, 1) * h(2, 1), h(1, 1) * h(2, 2) + h(1, 2) * h(2, 1), h(1, 2) * h(2, 2), ...
+        h(1, 3) * h(2, 1) + h(1, 1) * h(2, 3), h(1, 3) * h(2, 2) + h(1, 2) * h(2, 3), h(1, 3) * h(2, 3)];
+    v22 = [h(2, 1) ^ 2, h(2, 1) * h(2, 2) * 2, h(2, 2) ^ 2, h(2, 3) * h(2, 1) * 2, h(2, 3) * h(2, 2) * 2, h(2, 3) ^ 2];
+    V((i - 1) * 2 + i, :) = v12;
+    V(i * 2, :) = v11 - v22;
+end
 
+if imgNum == 2
+    V(end + 1, :) = [0, 1, 0, 0, 0, 0];
+end
 
+K = mySolveK(V);
 
 end

@@ -12,8 +12,24 @@ function [ Rs, ts ] = EstimateRt_linear( Hs, K )
 %
 
 %% Your code goes here.
+imgNum = size(Hs, 3);
+Rs = zeros(3, 3, imgNum);
+ts = zeros(3, 1, imgNum);
+invK = inv(K);
 
-
+for i = 1:imgNum
+    r1 = invK * Hs(:, 1, i);
+    r1 = r1 ./ norm(r1);
+    r2 = invK * Hs(:, 2, i);
+    r2 = r2 ./ norm(r2);
+    r3 = cross(r1, r2);
+    Rs(:, :, i) = [r1, r2, r3];
+    ts(:, 1, i) = invK * Hs(:, 3, i);
+    ts(:, 1, i) = ts(:, 1, i) ./ norm(ts(:, 1, i));
+    % estimate the best R
+    [U, ~, V] = svd(Rs(:, :, i));
+    Rs(:, :, i) = U * V';
+end
 
 end
 

@@ -18,7 +18,14 @@ function [error, f] = GeoError(x, X, ks, K, Rs, ts)
 %
 
 %% Your code goes here
+[n, ~, imgNum] = size(x);
+f = zeros(2, imgNum, n);
+for i = 1:imgNum
+    corrX = correctDistortionProjection(X, K, Rs(:, :i), ts(:, :, i), ks);
+    err = x(:, :, i) - corrX; % n x 2
+    f(:, i, :) = reshape(err', 2, 1, []); % 2 x 1 x n
+end
 
-
+error = sum(sum(f .^ 2));
 
 end
