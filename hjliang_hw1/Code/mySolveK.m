@@ -4,7 +4,7 @@ function [ K ] = mySolveK( V )
 
 % Find eigenvector
 [eigV, eigD] = eig(V' * V);
-d = diag(eigD);
+d = abs(diag(eigD));
 [~, I] = min(d);
 b = eigV(:, I);
 B = [b(1), b(2), b(4); ...
