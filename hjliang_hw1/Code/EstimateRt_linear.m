@@ -19,16 +19,17 @@ invK = inv(K);
 
 for i = 1:imgNum
     r1 = invK * Hs(:, 1, i);
-    r1 = r1 ./ norm(r1);
+    lamda = norm(r1);
+    r1 = r1 ./ lamda;
     r2 = invK * Hs(:, 2, i);
-    r2 = r2 ./ norm(r2);
+    r2 = r2 ./ lamda;
     r3 = cross(r1, r2);
     Rs(:, :, i) = [r1, r2, r3];
     ts(:, 1, i) = invK * Hs(:, 3, i);
-    ts(:, 1, i) = ts(:, 1, i) ./ norm(ts(:, 1, i));
+    ts(:, 1, i) = ts(:, 1, i) ./ lamda;
     % estimate the best R
-    % [U, ~, V] = svd(Rs(:, :, i));
-%     Rs(:, :, i) = U * V';
+    [U, ~, V] = svd(Rs(:, :, i));
+    Rs(:, :, i) = U * V';
 end
 
 end
