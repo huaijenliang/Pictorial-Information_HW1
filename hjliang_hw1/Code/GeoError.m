@@ -25,7 +25,7 @@ for i = 1:imgNum
     err = x(:, :, i) - corrX; % n x 2
     f(:, i, :) = reshape(err', 2, 1, []); % 2 x 1 x n
 end
-
-error = sum(sum(f .^ 2));
+err = f .^ 2;
+error = sum(err(:));
 
 end
