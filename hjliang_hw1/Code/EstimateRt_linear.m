@@ -28,8 +28,8 @@ for i = 1:imgNum
     ts(:, 1, i) = invK * Hs(:, 3, i);
     ts(:, 1, i) = ts(:, 1, i) ./ lamda;
     % estimate the best R
-    [U, ~, V] = svd(Rs(:, :, i));
-    Rs(:, :, i) = U * V';
+%     [U, ~, V] = svd(Rs(:, :, i));
+%     Rs(:, :, i) = U * V';
 end
 
 end
