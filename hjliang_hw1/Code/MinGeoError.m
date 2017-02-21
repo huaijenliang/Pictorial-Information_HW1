@@ -66,8 +66,8 @@ params_encoded = params_encoded(3:end);
 assert(isempty(params_encoded));
 end
 
-function error = GeoError_cb(params, x, X)
+function f = GeoError_cb(params, x, X)
 [ks, K, Rs, ts] = decodeParams(params, size(x, 3));
-[error, ~] = GeoError(x, X, ks, K, Rs, ts);
+[~, f] = GeoError(x, X, ks, K, Rs, ts);
 end
 
