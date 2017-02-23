@@ -32,8 +32,8 @@ ks = [0, 0]';
 
 %% Minimize reprojection errors
 [ ks_opt, K_opt, Rs_opt, ts_opt ] = MinGeoError( x, X, ks, K, Rs, ts );
-cprintf('green', 'Reprojection error per measurement: %f pixel(s)\n',...
+cprintf('red', 'Reprojection error per measurement: %f pixel(s)\n',...
     GeoError(x, X, ks_opt, K_opt, Rs_opt, ts_opt)/(size(x, 1)*size(x, 3)));
 
 %% Evaluate parameters
-Evaluate;
+% Evaluate;
